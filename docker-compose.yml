@@ -1,0 +1,24 @@
+version: '3.0'
+services:
+  app:
+    build: docker/app
+    entrypoint: '/app/docker/app/entrypoint.dev.sh'
+    command: poetry run ./manage.py runserver 0.0.0.0:3000
+    working_dir: /app
+    volumes:
+      - ./docker/app/.bashrc:/root/.bashrc:ro
+      - .:/app:cached
+    environment:
+      POSTGRES_DATABASE: mydb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: docker
+      POSTGRES_HOSTNAME: db
+      POSTGRES_PORT: 5432
+    links:
+      - db
+  db:
+    image: postgres:11.1-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=mydb

@@ -2,7 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+docker-compose.override.yml
+.env
 # C extensions
 *.so
 
